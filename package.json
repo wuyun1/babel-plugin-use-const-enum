@@ -14,7 +14,8 @@
     "terser",
     "uglify",
     "minify",
-    "compress"
+    "compress",
+    "choerodon-ui"
   ],
   "scripts": {
     "build": "babel src --out-dir lib",
