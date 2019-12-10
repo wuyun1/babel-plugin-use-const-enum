@@ -1,19 +1,19 @@
-# babel-plugin-const-enum
+# babel-plugin-use-const-enum
 
-> Transform TypeScript `const` enums
+> Use TypeScript `const` enums, Fix babel not support const enum
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save-dev babel-plugin-const-enum
+npm install --save-dev babel-plugin-use-const-enum
 ```
 
 or using yarn:
 
 ```sh
-yarn add babel-plugin-const-enum --dev
+yarn add babel-plugin-use-const-enum --dev
 ```
 
 ## Usage
@@ -29,9 +29,9 @@ done since
 [plugins run before presets](https://babeljs.io/docs/en/plugins/#plugin-ordering).
 
 If you are using `@babel/plugin-transform-typescript`, then make sure that
-`babel-plugin-const-enum` comes before
+`babel-plugin-use-const-enum` comes before
 `@babel/plugin-transform-typescript` in the plugin array so that
-`babel-plugin-const-enum` [runs first](https://babeljs.io/docs/en/plugins/#plugin-ordering).
+`babel-plugin-use-const-enum` [runs first](https://babeljs.io/docs/en/plugins/#plugin-ordering).
 This plugin needs to run first to transform the `const enum`s into code that
 `@babel/plugin-transform-typescript` allows.
 
@@ -39,7 +39,7 @@ This plugin needs to run first to transform the `const enum`s into code that
 
 ```json
 {
-  "plugins": ["const-enum", "@babel/transform-typescript"]
+  "plugins": ["use-const-enum", "@babel/transform-typescript"]
 }
 ```
 
@@ -50,120 +50,32 @@ Can be used in a slower dev build to allow `const`, while prod still uses `tsc`.
 See [babel#6476](https://github.com/babel/babel/issues/6476).
 
 ```ts
-// Before:
-const enum MyEnum {
-  A = 1,
-  B = A,
-  C,
-  D = C,
-  E = 1,
-  F,
-  G = A * E,
-  H = A ** B ** C,
-  I = A << 20
-}
-
-// After:
-enum MyEnum {
-  A = 1,
-  B = A,
-  C,
-  D = C,
-  E = 1,
-  F,
-  G = A * E,
-  H = A ** B ** C,
-  I = A << 20
+// enum.ts
+// defined const enum
+export declare const enum Status {
+    create = "create",
+    pending = "pending",
+    end = "end"
 }
 ```
-
-`.babelrc`
-```json
-{
-  "plugins": [
-    "const-enum"
-  ]
-}
-```
-
-Or Explicitly:
-
-`.babelrc`
-```json
-{
-  "plugins": [
-    [
-      "const-enum",
-      {
-        "transform": "removeConst"
-      }
-    ]
-  ]
-}
-```
-
-### `transform: constObject`
-
-Transforms into a `const` object literal.
-Can be further compressed using Uglify/Terser to inline `enum` access.
-See [babel#8741](https://github.com/babel/babel/issues/8741).
 
 ```ts
+// use const enum
+
 // Before:
-const enum MyEnum {
-  A = 1,
-  B = A,
-  C,
-  D = C,
-  E = 1,
-  F,
-  G = A * E,
-  H = A ** B ** C,
-  I = A << 20
-}
+import { Status } from './enum.ts';
+const s = Status.create; // after babel =>|     const s = Status.create;
 
 // After:
-const MyEnum = {
-  A: 1,
-  B: 1,
-  C: 2,
-  D: 2,
-  E: 1,
-  F: 2,
-  G: 1,
-  H: 1,
-  I: 1048576
-};
+import { Status } from './enum.ts';
+const s = Status.create; // after babel =>|     const s = 'create';
 ```
 
 `.babelrc`
 ```json
 {
   "plugins": [
-    [
-      "const-enum",
-      {
-        "transform": "constObject"
-      }
-    ]
+    "use-const-enum"
   ]
 }
 ```
-
-## Troubleshooting
-
-### `SyntaxError`
-
-You may be getting a `SyntaxError` because you are running this plugin on
-non-TypeScript source. You might have run into this problem in `react-native`,
-see:<br>
-[babel-plugin-const-enum#2](https://github.com/dosentmatter/babel-plugin-const-enum/issues/2)<br>
-[babel-plugin-const-enum#3](https://github.com/dosentmatter/babel-plugin-const-enum/issues/3)
-
-This seems to be caused by `react-native` transpiling
-[`flow`](https://flow.org/) code in `node_modules`.
-To fix this issue, please use
-[`babel-preset-const-enum`](https://github.com/dosentmatter/babel-preset-const-enum)
-to only run `babel-plugin-const-enum` on TypeScript files.
-If you wish to fix the issue manually, check out the
-[solution in babel-plugin-const-enum#2](https://github.com/dosentmatter/babel-plugin-const-enum/issues/2#issuecomment-542859348).

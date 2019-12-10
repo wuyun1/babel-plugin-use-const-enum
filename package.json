@@ -1,8 +1,8 @@
 {
-  "name": "babel-plugin-const-enum",
+  "name": "babel-plugin-use-const-enum",
   "version": "0.0.4",
   "description": "Transform TypeScript `const` enums",
-  "repository": "https://github.com/dosentmatter/babel-plugin-const-enum",
+  "repository": "https://github.com/dosentmatter/babel-plugin-use-const-enum",
   "author": "Kevin Lau",
   "license": "MIT",
   "main": "lib/index.js",

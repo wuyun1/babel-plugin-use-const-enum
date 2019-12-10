@@ -17,7 +17,7 @@ export default declare((api, { transform = 'removeConst' }) => {
   }
 
   return {
-    name: 'const-enum',
+    name: 'use-const-enum',
     inherits: syntaxTypeScript,
     visitor,
   };
