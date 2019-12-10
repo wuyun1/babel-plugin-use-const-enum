@@ -68,7 +68,7 @@ const s = Status.create; // after babel =>|     const s = Status.create;
 
 // After:
 import { Status } from './enum.ts';
-const s = Status.create; // after babel =>|     const s = 'create';
+const s = Status.create; // after babel =>|     const s = "create";
 ```
 
 `.babelrc`
@@ -76,6 +76,49 @@ const s = Status.create; // after babel =>|     const s = 'create';
 {
   "plugins": [
     "use-const-enum"
+  ]
+}
+```
+
+### `transform: importRegStr`
+
+filter `importRegStr` .
+Specify the scope of the `const enum` by `importRegStr`
+
+```ts
+// Before:
+import { FieldType } from 'choerodon-ui/pro/lib/data-set/enum';
+
+enum Status {
+  pending = 'pending',
+  end = 'end',
+  start = 'start'
+}
+
+console.log(FieldType.string);
+console.log(Status.end);
+
+
+// After:
+import { FieldType } from 'choerodon-ui/pro/lib/data-set/enum';
+var Status;
+
+(function (Status) {
+  Status["pending"] = "pending";
+  Status["end"] = "end";
+  Status["start"] = "start";
+})(Status || (Status = {}));
+
+console.log("string");
+console.log(Status.end);
+
+```
+
+`.babelrc`
+```json
+{
+  "plugins": [
+    ["use-const-enum", { "importRegStr": "choerodon-ui\/.*\/enum" }]
   ]
 }
 ```

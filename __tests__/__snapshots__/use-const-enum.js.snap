@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transforms no initializers 1`] = `
+"import { FieldType } from 'choerodon-ui/pro/lib/data-set/enum';
+enum Status {
+  pending = 'pending',
+  end = 'end',
+  start = 'start',
+}
+console.log(\\"string\\");
+console.log(Status.end);"
+`;
