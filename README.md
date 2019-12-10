@@ -43,43 +43,6 @@ This plugin needs to run first to transform the `const enum`s into code that
 }
 ```
 
-### `transform: removeConst` (default)
-
-Removes the `const` keyword to use regular `enum`.
-Can be used in a slower dev build to allow `const`, while prod still uses `tsc`.
-See [babel#6476](https://github.com/babel/babel/issues/6476).
-
-```ts
-// enum.ts
-// defined const enum
-export declare const enum Status {
-    create = "create",
-    pending = "pending",
-    end = "end"
-}
-```
-
-```ts
-// use const enum
-
-// Before:
-import { Status } from './enum.ts';
-const s = Status.create; // after babel =>|     const s = Status.create;
-
-// After:
-import { Status } from './enum.ts';
-const s = Status.create; // after babel =>|     const s = "create";
-```
-
-`.babelrc`
-```json
-{
-  "plugins": [
-    "use-const-enum"
-  ]
-}
-```
-
 ### `transform: importRegStr`
 
 filter `importRegStr` .
