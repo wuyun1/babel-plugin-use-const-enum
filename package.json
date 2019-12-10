@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-use-const-enum",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Use TypeScript `const` enums, Fix babel not support const enum",
   "repository": "https://github.com/wuyun1/babel-plugin-use-const-enum",
   "author": "YunQiang Wu",
