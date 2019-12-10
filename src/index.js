@@ -2,7 +2,22 @@ import { types } from '@babel/core';
 import { declare } from '@babel/helper-plugin-utils';
 import syntaxTypeScript from '@babel/plugin-syntax-typescript';
 
-export default declare((api, { importRegStr } ) => {
+function removePlugin(plugins, name) {
+  const indices = [];
+  plugins.forEach((plugin, i) => {
+    const n = Array.isArray(plugin) ? plugin[0] : plugin;
+
+    if (n === name) {
+      indices.unshift(i);
+    }
+  });
+
+  for (const i of indices) {
+    plugins.splice(i, 1);
+  }
+}
+
+export default declare((api, { importRegStr, isTSX = true } ) => {
   api.assertVersion(7);
 
   const importReg = importRegStr && new RegExp(importRegStr, 'i');
@@ -12,6 +27,16 @@ export default declare((api, { importRegStr } ) => {
   return {
     name: 'use-const-enum',
     inherits: syntaxTypeScript,
+    manipulateOptions(opts, parserOpts) {
+      const { plugins } = parserOpts;
+      // If the Flow syntax plugin already ran, remove it since Typescript
+      // takes priority.
+      removePlugin(plugins, "flow");
+
+      if (isTSX) {
+        parserOpts.plugins.push("jsx");
+      }
+    },
     visitor: {
       MemberExpression(path) {
         const currentFilePath = path.hub.file.opts.filename;
