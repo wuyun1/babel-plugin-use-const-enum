@@ -6,6 +6,9 @@
   "author": "YunQiang Wu",
   "license": "MIT",
   "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "http://nexus.saas.hand-china.com/content/repositories/hzero-ui/"
+  },
   "keywords": [
     "babel-plugin",
     "typescript",

@@ -39,6 +39,9 @@ export default declare((api, { importRegStr, isTSX = true } ) => {
     },
     visitor: {
       MemberExpression(path) {
+        if(!path.hub) {
+          return;
+        }
         const currentFilePath = path.hub.file.opts.filename;
         const constEnumName = path.node.object.name;
         if(CONST_ENUM_OBJECT[`${currentFilePath}_${constEnumName}`]) {
