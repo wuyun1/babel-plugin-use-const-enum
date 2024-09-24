@@ -13,6 +13,7 @@ it('Transforms no initializers', async () => {
   }
 
   console.log(FieldType.string);
+  console.log(FieldType["string-aaa"]);
   console.log(Status.end);
 `;
 

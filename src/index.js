@@ -46,8 +46,18 @@ export default declare((api, { importRegStr, isTSX = true } ) => {
         const constEnumName = path.node.object.name;
         if(CONST_ENUM_OBJECT[`${currentFilePath}_${constEnumName}`]) {
           path.replaceWith(
-            types.stringLiteral(path.node.property.name),
+            types.stringLiteral(path.node.property.name || path.node.property.value),
           );
+          // if(path.node.property.name) {
+          //   path.replaceWith(
+          //     types.stringLiteral(path.node.property.name),
+          //   );
+          // }
+          // if(path.node.property.value) {
+          //   path.replaceWith(
+          //     types.stringLiteral(path.node.property.value),
+          //   );
+          // }
           path.skip();
         }
       },

@@ -8,5 +8,6 @@ enum Status {
   start = 'start',
 }
 console.log(\\"string\\");
+console.log(\\"string-aaa\\");
 console.log(Status.end);"
 `;

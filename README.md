@@ -59,6 +59,7 @@ enum Status {
 }
 
 console.log(FieldType.string);
+console.log(FieldType["string-aaa"]);
 console.log(Status.end);
 
 
@@ -73,6 +74,7 @@ var Status;
 })(Status || (Status = {}));
 
 console.log("string");
+console.log("string-aaa");
 console.log(Status.end);
 
 ```
